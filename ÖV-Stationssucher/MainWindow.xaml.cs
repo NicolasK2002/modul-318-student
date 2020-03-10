@@ -20,9 +20,15 @@ namespace ÖV_Stationssucher
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        char tab = 'F';
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void load(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
