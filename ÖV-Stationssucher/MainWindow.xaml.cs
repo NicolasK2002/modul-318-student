@@ -22,6 +22,7 @@ namespace ÖV_Stationssucher
     {
 
         char tab = 'F';
+        SwissTransport.Transport transport = new SwissTransport.Transport();
         public MainWindow()
         {
             InitializeComponent();
@@ -29,6 +30,21 @@ namespace ÖV_Stationssucher
 
         private void load(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void findStationNames(object sender, RoutedEventArgs e)
+        {
+            string stationInput = station_input.Text;
+
+            SwissTransport.Stations stationNames = transport.GetStations(stationInput);
+
+            stationname_list.Items.Clear();
+
+            foreach(SwissTransport.Station station in stationNames.StationList)
+            {
+                stationname_list.Items.Add(station.Name);
+            }
+
         }
     }
 }
