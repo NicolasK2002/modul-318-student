@@ -18,10 +18,12 @@ namespace ÖV_Stationssucher
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
 
         SwissTransport.Transport transport = new SwissTransport.Transport();
+        List<string> sn = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
@@ -31,19 +33,48 @@ namespace ÖV_Stationssucher
         {
         }
 
-        private void textChangeEvent(object sender, TextChangedEventArgs e)
+        private void stationRecommend(object sender, TextChangedEventArgs e)
         {
-            switch(e.Source as FrameworkElement)
+            ComboBox cb = (ComboBox)sender;
+
+            string stationname = cb.Text;
+
+            SwissTransport.Stations stationNames = transport.GetStations(stationname);
+
+            cb.Items.Clear();
+
+            foreach (SwissTransport.Station station in stationNames.StationList)
             {
-                default:
-                    fp_list.Items.Add((e.Source as FrameworkElement).Name);
+                cb.Items.Add(station.Name);
+            }
+
+            if (cb.HasItems)
+            {
+                cb.IsDropDownOpen = true;
+            }
+            else
+            {
+                cb.IsDropDownOpen = false;
+            }
+
+            cb.Text = stationname;
+
+            string[] elementClass = (e.Source as FrameworkElement).Name.Split('_');
+
+            switch (elementClass[0])
+            {
+                case "fp":
+                    fp_InputChange();
+                    break;
+                case "abf":
+                    abf_InputChange();
                     break;
             }
         }
 
-        private void fp_InputChange(object sender, TextChangedEventArgs e)
+        private void fp_InputChange()
         {
-            if(fp_inp_start.Text.Length == 0 || fp_inp_end.Text.Length == 0)
+            if(fp_cb_start.Text.Length == 0 || fp_cb_end.Text.Length == 0)
             {
                 fp_bnt_findConnection.IsEnabled = false;
             }
@@ -55,8 +86,8 @@ namespace ÖV_Stationssucher
 
         private void fp_searchConnection(object sender, RoutedEventArgs e)
         {
-            string stationStart = fp_inp_start.Text;
-            string stationEnd = fp_inp_end.Text;
+            string stationStart = fp_cb_start.Text;
+            string stationEnd = fp_cb_end.Text;
 
             SwissTransport.Connections connections = transport.GetConnections(stationStart, stationEnd);
 
@@ -68,9 +99,9 @@ namespace ÖV_Stationssucher
             }
         }
 
-        private void abf_InputChange(object sender, TextChangedEventArgs e)
+        private void abf_InputChange()
         {
-            if (abf_inp_name.Text.Length == 0)
+            if (abf_cb_name.Text.Length == 0)
             {
                 abf_bnt_searchAbfahrt.IsEnabled = false;
             }
@@ -82,7 +113,7 @@ namespace ÖV_Stationssucher
 
         private void abf_searchAbfahrt(object sender, RoutedEventArgs e)
         {
-            string station = abf_inp_name.Text;
+            string station = abf_cb_name.Text;
             string stationId;
 
             SwissTransport.Stations stationNames = transport.GetStations(station);
@@ -101,29 +132,17 @@ namespace ÖV_Stationssucher
             }
         }
 
-        private void sta_InputChange(object sender, TextChangedEventArgs e)
+        private void st_findStations(object sender, TextChangedEventArgs e)
         {
-            if (sta_inp_name.Text.Length == 0)
-            {
-                sta_bnt_searchSta.IsEnabled = false;
-            }
-            else
-            {
-                sta_bnt_searchSta.IsEnabled = true;
-            }
-        } 
-
-        private void sta_findStations(object sender, RoutedEventArgs e)
-        {
-            string stationInput = sta_inp_name.Text;
+            string stationInput = st_inp_name.Text;
 
             SwissTransport.Stations stationNames = transport.GetStations(stationInput);
 
-            sta_list_stationnames.Items.Clear();
+            st_list_stationnames.Items.Clear();
 
             foreach (SwissTransport.Station station in stationNames.StationList)
             {
-                sta_list_stationnames.Items.Add(station.Name);
+                st_list_stationnames.Items.Add(station.Name);
             }
 
         }

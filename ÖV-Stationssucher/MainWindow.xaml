@@ -17,9 +17,9 @@
 
                     <StackPanel Grid.Column="0">
                         <Label Content="Startstation" />
-                        <TextBox Name="fp_inp_start" TextChanged="fp_InputChange"/>
+                        <ComboBox Name="fp_cb_start" IsEditable="True" TextBoxBase.TextChanged="stationRecommend"/>
                         <Label Content="Endstation" />
-                        <TextBox Name="fp_inp_end"  TextChanged="fp_InputChange"/>
+                        <ComboBox Name="fp_cb_end" IsEditable="True" TextBoxBase.TextChanged="stationRecommend"/>
                         <Label Content="Datum" />
                         <DatePicker Name="fp_dp"/>
                         <Label Content="Zeit" />
@@ -45,7 +45,8 @@
 
                     <StackPanel Grid.Column="0">
                         <Label Content="Station:"/>
-                        <TextBox Name="abf_inp_name" TextChanged="abf_InputChange"/>
+                        <!--<TextBox Name="abf_inp_name" TextChanged="abf_InputChange"/>-->
+                        <ComboBox Name="abf_cb_name" IsEditable="True" IsTextSearchEnabled="False" TextBoxBase.TextChanged="stationRecommend"/>
                         <!--<Label Content="Datum:"/>
                         <DatePicker Name="abf_inp_date"/>
                         <Label Content="Zeit:"/>
@@ -71,22 +72,13 @@
 
                     <StackPanel Grid.Column="0">
                         <Label Content="Station" />
-                        <TextBox Name="sta_inp_name" TextChanged="sta_InputChange" />
-                        <!--<Button Name="sta_bnt_searchSta" Width="100" Click="sta_findStations" IsEnabled="false" Content="Stationen Suchen"/>-->
+                        <TextBox Name="st_inp_name" TextChanged="st_findStations" />
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
                         <GroupBox Header="Stationsnamen">
-                            <ListBox Name="sta_list_stationnames"/>
+                            <ListBox Name="st_list_stationnames"/>
                         </GroupBox>
-                        <!--<UniformGrid>
-                        <Button Width="50">
-                            <Image Width="40" Source="res/stationenLeft.png"/>
-                        </Button>
-                        <Button Width="50">
-                            <Image Width="40" Source="res/stationenRight.png"/>
-                        </Button>
-                        </UniformGrid>-->
                     </StackPanel>
 
                     <GridSplitter Width="5" Grid.Column="0"/>
