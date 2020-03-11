@@ -15,6 +15,24 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
+                    <StackPanel Grid.Column="0">
+                        <Label Content="Startstation" />
+                        <TextBox Name="fp_inp_start" TextChanged="fp_InputChange"/>
+                        <Label Content="Endstation" />
+                        <TextBox Name="fp_inp_end"  TextChanged="fp_InputChange"/>
+                        <Label Content="Datum" />
+                        <DatePicker Name="fp_dp"/>
+                        <Label Content="Zeit" />
+                        <TextBox Name="fp_inp_time" />
+                        <Button Name="fp_bnt_findConnection" IsEnabled="False" Click="fp_searchConnection" Content="Verbindung suchen" />
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Column="1">
+                        <GroupBox Header="Fahrplan">
+                            <ListBox Name="fp_list" />
+                        </GroupBox>
+                    </StackPanel>
                     <GridSplitter Width="5" Grid.Column="0"/>
                 </Grid>
             </TabItem>
@@ -24,6 +42,22 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <Label Content="Station:"/>
+                        <TextBox Name="abf_inp_name" TextChanged="abf_InputChange"/>
+                        <!--<Label Content="Datum:"/>
+                        <DatePicker Name="abf_inp_date"/>
+                        <Label Content="Zeit:"/>
+                        <TextBox Name="abf_inp_time"/>-->
+                        <Button Name="abf_bnt_searchAbfahrt" IsEnabled="False" Content="Abfahrtsplan erstellen" Click="abf_searchAbfahrt"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <GroupBox Name="abf_gb_abfahrt" Grid.Column="1" Header="Abfahrtsplan">
+                            <ListBox Name="abf_list_abfahrt" />
+                        </GroupBox>
+                    </StackPanel>
 
                     <GridSplitter Width="5" Grid.Column="0"/>
                 </Grid>
@@ -36,14 +70,14 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0">
-                        <Label>Station:</Label>
-                        <TextBox Name="station_input" />
-                        <Button Width="100" Click="findStationNames">Stationen Suchen</Button>
+                        <Label Content="Station" />
+                        <TextBox Name="sta_inp_name" TextChanged="sta_InputChange" />
+                        <!--<Button Name="sta_bnt_searchSta" Width="100" Click="sta_findStations" IsEnabled="false" Content="Stationen Suchen"/>-->
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
                         <GroupBox Header="Stationsnamen">
-                            <ListBox Name="stationname_list"/>
+                            <ListBox Name="sta_list_stationnames"/>
                         </GroupBox>
                         <!--<UniformGrid>
                         <Button Width="50">
