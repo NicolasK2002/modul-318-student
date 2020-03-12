@@ -87,7 +87,17 @@ namespace ÖV_Stationssucher
 
         private void goTime(object sender, RoutedEventArgs e)
         {
-
+            string stationStart = fp_cb_start.Text;
+            string stationEnd = fp_cb_end.Text;
+            byte isArrival = 0;
+            string time = fp_list_arrival.Items[3].ToString();
+            string date = fp_list_dateArrival.Items[3].ToString();
+            if(((Button)sender).Name == "fp_bnt_goBack") {
+                    isArrival = 1;
+                    time = fp_list_departure.Items[0].ToString();
+                    date = fp_list_dateDeparture.Items[0].ToString();
+            }
+            update_ListBox(stationStart, stationEnd, date, time, isArrival);
         }
 
         private void fp_InputChange(object sender = null, TextChangedEventArgs e = null)
@@ -103,14 +113,25 @@ namespace ÖV_Stationssucher
             string stationStart = fp_cb_start.Text;
             string stationEnd = fp_cb_end.Text;
             string date = accessDate(fp_dp.SelectedDate.ToString());
+            string time = fp_cb_time.Text;
             bool isArrival = Convert.ToBoolean(fp_rb_arrival.IsChecked);
 
-            SwissTransport.Connections connections = transport.GetConnections(stationStart, stationEnd, date, fp_cb_time.Text, Convert.ToByte(isArrival).ToString());
+            update_ListBox(stationStart, stationEnd, date, time, Convert.ToByte(isArrival));
+
+            fp_bnt_goBack.IsEnabled = true;
+            fp_bnt_goForward.IsEnabled = true;
+        }
+
+        private void update_ListBox(string stationStart, string stationEnd, string date, string time, byte isArrival)
+        {
+            SwissTransport.Connections connections = transport.GetConnections(stationStart, stationEnd, date, time, isArrival.ToString());
 
             fp_list_from.Items.Clear();
             fp_list_to.Items.Clear();
             fp_list_departure.Items.Clear();
             fp_list_arrival.Items.Clear();
+            fp_list_dateDeparture.Items.Clear();
+            fp_list_dateArrival.Items.Clear();
 
             foreach (SwissTransport.Connection connection in connections.ConnectionList)
             {
@@ -118,16 +139,21 @@ namespace ÖV_Stationssucher
                 fp_list_to.Items.Add(connection.To.Station.Name);
                 fp_list_departure.Items.Add(accessTime(connection.From.Departure));
                 fp_list_arrival.Items.Add(accessTime(connection.To.Arrival));
+                fp_list_dateDeparture.Items.Add(accessTime(connection.From.Departure, true));
+                fp_list_dateArrival.Items.Add(accessTime(connection.To.Arrival, true));
             }
         }
 
-        private string accessTime(string time)
+        private string accessTime(string time, bool getDate = false)
         {
             string result = "";
             string[] timeDay = time.Split('T');
             string[] timeHours = timeDay[1].Split('+');
             string[] timeMinuts = timeHours[0].Split(':');
-            result = timeMinuts[0] + ":" + timeMinuts[1];
+            if (getDate)
+                result = timeDay[0];
+            else
+                result = timeMinuts[0] + ":" + timeMinuts[1];
             return result;
         }
 
