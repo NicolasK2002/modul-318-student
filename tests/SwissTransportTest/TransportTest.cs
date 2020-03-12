@@ -24,12 +24,12 @@ namespace SwissTransport
 
             Assert.IsNotNull(stationBoard);
         }
-
+        
         [TestMethod]
         public void Connections()
         {
             testee = new Transport();
-            var connections = testee.GetConnections("Sursee", "Luzern");
+            var connections = testee.GetConnections("Sursee", "Luzern", "2020-03-12", "11:24", "1");
 
             Assert.IsNotNull(connections);
         }

@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800" Loaded="load">
     <Grid>
         <TabControl>
+            <!-- Fahrplan -->
             <TabItem Header="Fahrplan">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -21,21 +22,50 @@
                         <Label Content="Endstation" />
                         <ComboBox Name="fp_cb_end" IsEditable="True" TextBoxBase.TextChanged="stationRecommend"/>
                         <Label Content="Datum" />
-                        <DatePicker Name="fp_dp"/>
+                        <DatePicker Name="fp_dp" TextBoxBase.TextChanged="fp_InputChange"/>
                         <Label Content="Zeit" />
-                        <TextBox Name="fp_inp_time" />
+                        <ComboBox Name="fp_cb_time" IsEditable="True" TextBoxBase.TextChanged="fp_InputChange"/>
+                        <RadioButton Content="Ab" IsChecked="True"/>
+                        <RadioButton Name="fp_rb_arrival" Content="An"/>
                         <Button Name="fp_bnt_findConnection" IsEnabled="False" Click="fp_searchConnection" Content="Verbindung suchen" />
                     </StackPanel>
 
 
-                    <StackPanel Grid.Column="1">
-                        <GroupBox Header="Fahrplan">
-                            <ListBox Name="fp_list" />
-                        </GroupBox>
-                    </StackPanel>
-                    <GridSplitter Width="5" Grid.Column="0"/>
+                    <GroupBox Header="Fahrplan" Grid.Column="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+
+                            <GroupBox Grid.Column="0" Grid.Row="0" Header="Startstation">
+                                <ListBox Name="fp_list_from" />
+                            </GroupBox>
+                            <GroupBox Grid.Column="1" Grid.Row="0" Header="Endstation">
+                                <ListBox Name="fp_list_to" />
+                            </GroupBox>
+                            <GroupBox Grid.Column="2" Grid.Row="0" Header="Abfahrtszeit">
+                                <ListBox Name="fp_list_departure" />
+                            </GroupBox>
+                            <GroupBox Grid.Column="3" Grid.Row="0" Header="Ankunftszeit">
+                                <ListBox Name="fp_list_arrival" />
+                            </GroupBox>
+                            <Button Name="fp_bnt_goBack" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" IsEnabled="False" Content="Zurückspulen" Click="goTime" />
+                            <Button Name="fp_bnt_goForward" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" IsEnabled="False" Content="Vorspulen" />
+                        </Grid>
+                    </GroupBox>
+                    <GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Left"/>
                 </Grid>
             </TabItem>
+            <!-- Abfahrtsplan -->
             <TabItem Header="Abfahrtsplan">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -45,24 +75,20 @@
 
                     <StackPanel Grid.Column="0">
                         <Label Content="Station:"/>
-                        <!--<TextBox Name="abf_inp_name" TextChanged="abf_InputChange"/>-->
                         <ComboBox Name="abf_cb_name" IsEditable="True" IsTextSearchEnabled="False" TextBoxBase.TextChanged="stationRecommend"/>
-                        <!--<Label Content="Datum:"/>
-                        <DatePicker Name="abf_inp_date"/>
-                        <Label Content="Zeit:"/>
-                        <TextBox Name="abf_inp_time"/>-->
                         <Button Name="abf_bnt_searchAbfahrt" IsEnabled="False" Content="Abfahrtsplan erstellen" Click="abf_searchAbfahrt"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1">
+                    <Grid Grid.Column="1">
                         <GroupBox Name="abf_gb_abfahrt" Grid.Column="1" Header="Abfahrtsplan">
                             <ListBox Name="abf_list_abfahrt" />
                         </GroupBox>
-                    </StackPanel>
+                    </Grid>
 
                     <GridSplitter Width="5" Grid.Column="0"/>
                 </Grid>
             </TabItem>
+            <!-- Stationen -->
             <TabItem Header="Stationen">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -75,15 +101,15 @@
                         <TextBox Name="st_inp_name" TextChanged="st_findStations" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1">
+                    <Grid Grid.Column="1">
                         <GroupBox Header="Stationsnamen">
                             <ListBox Name="st_list_stationnames"/>
                         </GroupBox>
-                    </StackPanel>
+                    </Grid>
 
                     <GridSplitter Width="5" Grid.Column="0"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        </Grid>
+    </Grid>
 </Window>
